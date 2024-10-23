@@ -27,8 +27,8 @@ class JsonlContentProvider implements vscode.TextDocumentContentProvider {
 		lineIndexDict[uri.path] = res[1]; // handle when line index invalid
 		updateLineIdxStatusBarItem();
 		
-		const lineFormated = JSON.stringify(JSON.parse(res[0]), null, 2);
-		return lineFormated;
+		const lineFormatted = JSON.stringify(JSON.parse(res[0]), null, 2);
+		return lineFormatted;
 	}
 };
 
@@ -89,8 +89,10 @@ async function readFileAtLine(uri: vscode.Uri, lineIdx: number): Promise<[string
 
 const openPreviewHandler = async (arg: any) => {
 	let uri = arg;
+	let initialLine = null;
+
+	const activeEditor = vscode.window.activeTextEditor;
 	if (!(uri instanceof vscode.Uri)) {
-		const activeEditor = vscode.window.activeTextEditor;
 		if (activeEditor && activeEditor.document.languageId === 'jsonl') {
 			uri = activeEditor.document.uri;
 		} else {
@@ -99,18 +101,23 @@ const openPreviewHandler = async (arg: any) => {
 		}
 	}
 	
+	// Get the current line number (1-based index)
+	if (activeEditor) {
+		initialLine = activeEditor.selection.active.line + 1;
+	}
+
 	// Change uri-scheme to "jsonl"
-	let uriPath = "";
-	if (uri._fsPath !== undefined && uri._fsPath !== null) {
-		uriPath = uri._fsPath;
-	}
-	else {
-		uriPath = uri.path;
-	}
+	let uriPath = uri._fsPath !== undefined && uri._fsPath !== null ? uri._fsPath : uri.path;
 	const jsonlUri = vscode.Uri.parse('jsonl:' + uriPath + ' (preview)');
 	
 	const document = await vscode.workspace.openTextDocument(jsonlUri);
 	await vscode.window.showTextDocument(document);
+
+	if (initialLine) {
+		// Set the initial line for the preview
+		lineIndexDict[jsonlUri.path] = initialLine;
+		jsonlProvider.onDidChangeEmitter.fire(jsonlUri);
+	}
 	
 	await vscode.languages.setTextDocumentLanguage(document, "json");
 };
