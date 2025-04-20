@@ -3,10 +3,10 @@
   "displayName": "JSON Lines Viewer",
   "description": "View each line of JSON Lines file in json format",
   "version": "0.0.5",
-  "publisher": "lehoanganh298",
+  "publisher": "AnotiaWang",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lehoanganh298/json-lines-viewer.git"
+    "url": "https://github.com/AnotiaWang/json-lines-viewer.git"
   },
   "engines": {
     "vscode": "^1.64.0"
@@ -26,6 +26,14 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "context": [
+      {
+        "name": "jsonlViewer.isEditingTempFile",
+        "description": "True when the active editor is a temporary file created by JSON Lines Viewer for editing a line.",
+        "type": "boolean",
+        "default": false
+      }
+    ],
     "commands": [
       {
         "command": "json-lines-viewer.preview",
@@ -36,19 +44,19 @@
         "command": "json-lines-viewer.next-line",
         "title": "JSONL Next Line",
         "icon": "$(arrow-down)",
-        "enablement": "resourceScheme == jsonl"
+        "enablement": "jsonlViewer.isEditingTempFile"
       },
       {
         "command": "json-lines-viewer.previous-line",
         "title": "JSONL Previous Line",
         "icon": "$(arrow-up)",
-        "enablement": "resourceScheme == jsonl"
+        "enablement": "jsonlViewer.isEditingTempFile"
       },
       {
         "command": "json-lines-viewer.go-to-line",
         "title": "JSONL Go to Line",
         "icon": "$(selection)",
-        "enablement": "resourceScheme == jsonl"
+        "enablement": "jsonlViewer.isEditingTempFile"
       }
     ],
     "languages": [
@@ -79,17 +87,17 @@
           "group": "navigation"
         },
         {
-          "when": "resourceScheme == jsonl",
+          "when": "jsonlViewer.isEditingTempFile",
           "command": "json-lines-viewer.previous-line",
           "group": "navigation@3"
         },
         {
-          "when": "resourceScheme == jsonl",
+          "when": "jsonlViewer.isEditingTempFile",
           "command": "json-lines-viewer.next-line",
           "group": "navigation@1"
         },
         {
-          "when": "resourceScheme == jsonl",
+          "when": "jsonlViewer.isEditingTempFile",
           "command": "json-lines-viewer.go-to-line",
           "group": "navigation@2"
         }
