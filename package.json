@@ -1,6 +1,6 @@
 {
-  "name": "json-lines-viewer",
-  "displayName": "JSON Lines Viewer",
+  "name": "json-lines-editor",
+  "displayName": "View & Edit JSONL Files",
   "description": "View and edit each line of JSON Lines file in json format",
   "version": "0.1.0",
   "publisher": "AnotiaWang",
@@ -19,7 +19,7 @@
     "jsonl",
     "json line",
     "jsonl viewer",
-    "jsonl preview"
+    "jsonl editor"
   ],
   "activationEvents": [
     "onCommand:json-lines-viewer.preview"
