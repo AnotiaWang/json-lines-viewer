@@ -1,8 +1,8 @@
 {
   "name": "json-lines-viewer",
   "displayName": "JSON Lines Viewer",
-  "description": "View each line of JSON Lines file in json format",
-  "version": "0.0.5",
+  "description": "View and edit each line of JSON Lines file in json format",
+  "version": "0.1.0",
   "publisher": "AnotiaWang",
   "repository": {
     "type": "git",
